@@ -1,5 +1,6 @@
 (ns overtone-metronome.osc-server
-  (:use overtone.osc))
+  (:use overtone.osc
+        [overtone-metronome.sound :only [ding]]))
 
 (def HOST "localhost")
 (def PORT 9000)
@@ -17,6 +18,7 @@
   "Update the input state with the value from a message."
   [msg]
   (println "OSC msg:" msg)
+  (ding)
   (let [input (get routes (:path msg) routes)
         val (first (:args msg))
         update (partial assoc-in @input-state [input])]
