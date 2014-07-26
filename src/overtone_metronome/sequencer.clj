@@ -21,12 +21,14 @@
   (doall (for [note chord-seq]
            (play-note synth note))))
 
-(defmacro play-sync
+(defmacro play-chord-sync
   "Play something sychronously for the specified time"
-  [t & body]
-  `(let [~'result ~@body
+  [t & chord]
+  `(let [~'result ~@chord
          ~'ids (map :id ~'result)]
-     (Thread/sleep (/ ~t 1000000000))))
+     (Thread/sleep (/ ~t 1000000000))
+     ;; Kill the sound for the chord
+     (apply kill ~'ids)))
 
 (defn play-cadence
   "Takes a metronome, synth, and collection of chord specs.
@@ -37,14 +39,6 @@
                              [:g2 :major 2"
   [m synth chords]
   (doseq [[root kind beats] chords]
-    (println "Playing chord" root)
-    (play-sync (m beats) (play-chord synth (chord root kind)))))
-
-
-(comment
-  (use 'overtone-metronome.sound)
-  (play-cadence @global-metronome
-                saw1
-                [[:c4 :major 4]
-                 [:f4 :major 4]]))
+    (println (format "Playing %s %s" (name root) (name kind)))
+    (play-chord-sync (m beats) (play-chord synth (chord root kind)))))
 
