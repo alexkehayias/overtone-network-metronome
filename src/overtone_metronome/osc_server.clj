@@ -1,6 +1,6 @@
 (ns overtone-metronome.osc-server
   (:use overtone.osc
-        [overtone-metronome.sound :only [ding]]))
+        [overtone-metronome.sound :only [saw-wave]]))
 
 (def HOST "localhost")
 (def PORT 9000)
@@ -18,7 +18,7 @@
   "Update the input state with the value from a message."
   [msg]
   (println "OSC msg:" msg)
-  (ding)
+  ;; (saw-wave 60)
   (let [input (get routes (:path msg) routes)
         val (first (:args msg))
         update (partial assoc-in @input-state [input])]
