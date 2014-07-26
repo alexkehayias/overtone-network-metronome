@@ -24,25 +24,3 @@
      vol))
 
 (definst saw1 [freq 60] (saw freq))
-
-(defn play-note
-  "Play the given music-note by triggering synth. Returns an instance 
-   of a synth.
-
-   Example:
-   (play-note saw-wave :a2)
-   ;; Play a sequence of notes
-   (-> saw-wave (play-note :a2) (play-note :b2))"
-  [synth music-note]
-  (synth (midi->hz (note music-note))))
-
-(defn play-chord
-  "Play a chord with the given synth. Returns a sequence"
-  [synth chord-seq]
-  (doall (for [note chord-seq]
-           (play-note synth note))))
-
-(defn with-duration [n f]
-  
-  
-  )
