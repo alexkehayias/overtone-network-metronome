@@ -26,7 +26,7 @@
   [t & chord]
   `(let [~'result ~@chord
          ~'ids (map :id ~'result)]
-     (Thread/sleep (/ ~t 1000000000))
+     (Thread/sleep (/ ~t 10000000000))
      ;; Kill the sound for the chord
      (apply kill ~'ids)))
 

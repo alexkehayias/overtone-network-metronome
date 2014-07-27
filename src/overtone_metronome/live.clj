@@ -9,17 +9,24 @@
 ;; Register a callback to start the song
 
 (def song-seq
-  (atom [[:c4 :major 2]
-         [:f4 :major 2]]))
+  (atom [[:D3 :major 2]
+         [:A3 :major 2]
+         [:B3 :minor 2]
+         [:F#3 :minor 2]
+         [:G3 :major 2]
+         [:D3 :major 2]
+         [:G3 :major 2]
+         [:A3 :major 2]]))
 
-(defn next-cycle [coll]
+(defn loop-coll
+  [coll]
   (reset! coll (concat (rest @coll) (vector (first @coll)))))
 
 (defn song
   [msg]
   (println msg)
   (when (= (first (:args msg)) 1)
-    (play-cadence @global-metronome saw1 (next-cycle song-seq))))
+    (play-cadence @global-metronome saw1 (loop-coll song-seq))))
 
 (defn start-song
   []
