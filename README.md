@@ -3,7 +3,8 @@
 An overtone sequencer using an osc metronome as the timekeeper. The metronome sends ticks representing the down beat with the current beat number to the subscriber.
 
 ## Usage
-The project requires that you have `liblo` installed. If you are on a mac `brew install liblo`. 
+The project requires that you have `liblo` installed. If you are on a mac `brew install liblo`.
+
 1) Start the metronome. See https://github.com/jordanorelli/metronome.
 2) Subscribe to the metronome `oscsend {metronome-ip-address} {port} /subscribe si {your-ip-address} {your-osc-port}`
 3) Start the osc server `overtone-metronome.osc_server/start-server!`
