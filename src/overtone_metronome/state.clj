@@ -13,7 +13,7 @@
 
 (defn update-tempo
   [msg]
-  (println "OSC msg:" msg)
+  (println "Updating tempo:" msg)
   (reset! global-bpm (int
                       (Math/floor
                        (/ 60 (/ (- (System/currentTimeMillis) @system-time) 1000.)))))

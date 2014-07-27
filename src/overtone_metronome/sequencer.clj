@@ -1,8 +1,13 @@
 (ns overtone-metronome.sequencer
   "Provides sequencer functions for describing loops and progressions"
   (:use overtone.core
-        [overtone-metronome.state :only [global-metronome]]))
+        [overtone-metronome.state :only [global-metronome global-bpm]]))
 
+
+(defn beats->ms
+  [bpm beats]
+  (let [qtr-note (/ (/ (float bpm) 60) 4)]
+    (* (* beats qtr-note) 1000)))
 
 (defn play-note
   "Play the given music-note by triggering synth. Returns an instance 
@@ -26,7 +31,7 @@
   [t & chord]
   `(let [~'result ~@chord
          ~'ids (map :id ~'result)]
-     (Thread/sleep (/ ~t 10000000000))
+     (Thread/sleep ~t)
      ;; Kill the sound for the chord
      (apply kill ~'ids)))
 
@@ -40,5 +45,6 @@
   [m synth chords]
   (doseq [[root kind beats] chords]
     (println (format "Playing %s %s" (name root) (name kind)))
-    (play-chord-sync (m beats) (play-chord synth (chord root kind)))))
+    (play-chord-sync (beats->ms @global-bpm beats)
+                     (play-chord synth (chord root kind)))))
 

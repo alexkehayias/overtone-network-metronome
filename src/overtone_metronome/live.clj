@@ -3,20 +3,20 @@
         overtone-metronome.sound
         overtone-metronome.sequencer
         [overtone-metronome.osc-server :only [server]] 
-        [overtone-metronome.state :only [global-metronome]]))
+        [overtone-metronome.state :only [global-metronome global-bpm]]))
 
 
 ;; Register a callback to start the song
 
 (def song-seq
-  (atom [[:D3 :major 2]
-         [:A3 :major 2]
-         [:B3 :minor 2]
-         [:F#3 :minor 2]
-         [:G3 :major 2]
-         [:D3 :major 2]
-         [:G3 :major 2]
-         [:A3 :major 2]]))
+  (atom [[:D3 :major 4]
+         [:A3 :major 4]
+         [:B3 :minor 4]
+         [:F#3 :minor 4]
+         [:G3 :major 4]
+         [:D3 :major 4]
+         [:G3 :major 4]
+         [:A3 :major 4]]))
 
 (defn loop-coll
   [coll]
@@ -24,7 +24,6 @@
 
 (defn song
   [msg]
-  (println msg)
   (when (= (first (:args msg)) 1)
     (play-cadence @global-metronome saw1 (loop-coll song-seq))))
 

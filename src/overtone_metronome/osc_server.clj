@@ -1,13 +1,14 @@
 (ns overtone-metronome.osc-server
   (:use overtone.osc
-        [overtone-metronome.sound :only [saw-wave]]))
+        [overtone-metronome.sound :only [saw-wave]]
+        [overtone-metronome.state :only [update-tempo]]))
 
 (def HOST "localhost")
 (def PORT 9000)
 
-(def server (atom nil))
-(def client (atom nil))
-(def input-state (atom {}))
+(defonce server (atom nil))
+(defonce client (atom nil))
+(defonce input-state (atom {}))
 
 (def routes
   "Provides a map of routes of OSC urls to readable keywords."
@@ -18,7 +19,8 @@
   "Update the input state with the value from a message."
   [msg]
   (println "OSC msg:" msg)
-  ;; (saw-wave 1000)
+  (saw-wave 1000)
+  (update-tempo msg)
   (let [input (get routes (:path msg) routes)
         val (first (:args msg))
         update (partial assoc-in @input-state [input])]
